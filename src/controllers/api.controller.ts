@@ -16,7 +16,7 @@ function get(req: Request, res: Response) {
 
   res.send({
     actions: files,
-    baseUrl: `http://${req.headers.host}/api/:action`,
+    baseUrl: `${req.protocol}://${req.headers.host}/api/:action`,
     method: "GET",
   });
 }
@@ -37,7 +37,7 @@ function getAction(req: Request, res: Response) {
 
   res.send({
     action: req.params.action,
-    url: `http://${req.headers.host}/assets/${req.params.action}/${fileName}`,
+    url: `${req.protocol}://${req.headers.host}/assets/${req.params.action}/${fileName}`,
   });
 }
 
