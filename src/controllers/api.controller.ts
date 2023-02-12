@@ -4,6 +4,24 @@ import fs from "node:fs";
 import path from "node:path";
 
 function get(req: Request, res: Response) {
+  const assetsPath = path.join(process.cwd(), "assets");
+
+  let files: string[];
+  try {
+    files = fs.readdirSync(assetsPath);
+  } catch {
+    res.sendStatus(400);
+    return;
+  }
+
+  res.send({
+    actions: files,
+    baseUrl: `http://${req.headers.host}/api/:action`,
+    method: "GET",
+  });
+}
+
+function getAction(req: Request, res: Response) {
   const actionPath = path.join(process.cwd(), "assets", req.params.action);
 
   let files: string[];
@@ -35,4 +53,4 @@ function remove(req: Request, res: Response) {
   res.send("Method not implemented.");
 }
 
-export default { get, post, put, remove };
+export default { get, getAction, post, put, remove };
